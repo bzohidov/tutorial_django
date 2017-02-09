@@ -6,6 +6,9 @@ class Person(models.Model):
 	name = models.CharField(max_length=200)
 	#birthday = models.DateTimeField(max_length=200)
 
+	def __str__(self):
+		return self.name
+
 
 class Album(models.Model):
 	#album_person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)

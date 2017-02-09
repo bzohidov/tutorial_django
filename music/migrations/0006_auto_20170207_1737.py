@@ -8,11 +8,20 @@ def add_persons(apps, schema_editor):
 
     Album = apps.get_model("music", "Album")
     Person = apps.get_model("music", "Person")
+    Song = apps.get_model("music", "Song")
 
-    for album in Album.objects.all():
-        album.person = Person.objects.create(name=album.author)
-        album.save()
+    for album, song in zip(Album.objects.all(), Song.objects.all()):
+        print (album.author, album.person_id), (song.singer, song.person_id)
 
+        same_name_persons = Person.objects.filter(name=album.author)
+        for same in same_name_persons.all():
+            print same.id, same.name
+
+        #album.person = Person.objects.filter(name=album.author).first()
+        #album.save()
+
+        #song.person = Person.objects.filter(name=song.author).first()
+        #song.save()
 
 
 class Migration(migrations.Migration):
@@ -31,6 +40,6 @@ class Migration(migrations.Migration):
             name='album',
             field=models.ManyToManyField(to='music.Album'),
         ),
-        migrations.RunPython(add_persons),
+        migrations.RunPython(add_persons, lambda x, y: None),
 
     ]
